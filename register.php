@@ -25,18 +25,25 @@
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Register!</h3></div>
                                     <div class="card-body">
                                     <?php 
-                                        if(isset ($_SESSION['register.php'])){
-                                        $username= $_POST(["username"]);
+                                        if(isset ($_SESSION['login'])){
+                                        $username = $_POST(["username"]);
                                         $password= MD5($_POST["password"]);
                                         $email= $_POST(["email"]);
                                         $nama_lengkap= $_POST(["nama_lengkap"]);
                                         $alamat= $_POST(["alamat"]);
+                                        $level= $_POST(["level"]);
 
-                                        $data = mysqli_query($koneksi, "SELECT*FROM user where 'username' = $username,'password' = $password, 'email' = $email, 'nama_lengkap' = $nama_lengkap and 'alamat' = $alamat" );
-                                        $cek = mysqli_num_rows ($data);
+                                        $insert = mysqli_query($koneksi, "INSERT INTO user ('username', 'password', 'email', 'nama_lengkap', 'alamat') VALUES ('$username', '$password', '$email', '$nama_lengkap', '$alamat' ");
+                                    
+                                        if($insert){
+                                            $_SESSION['user'] = mysqli_fetch_array($insert);
+                                            echo '<script>alert("Register Berhasil")alert location.href=index.php</script>';
+                                        }else {
+                                            echo '<script>alert("Register Gagal, Coba Lagi")alert</script>';
+
                                         }
- 
-                                        ?>        
+                                    }       
+                                     ?>        
                                     
                                     <form method="post">
                                         <form>
@@ -67,9 +74,17 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
-                                                        <input class="form-control" id="inputAlamat" type="Alamat" placeholder="Alamat" />
-                                                        <label for="Alamat">Alamat</label>
+                                                        <input class="form-control" id="inputAlamat" type="text" placeholder="Masukkan Alamat" />
+                                                        <label for="inputAlamat">Alamat</label>
                                                     </div>
+                                                    <br>
+                                                    <div class="form-card">
+                                                <label for="inputKategori">Level</label>
+                                                <select option="pilihKategori" value="kategori">Lavel</option><a class="btn btn-primary" href="index.php">Login</a>
+                                                <option value="Admin">Admin</option>
+                                                <option value="Petugas">Petugas</option>
+                                                <option value="Peminjam">Peminjam</option>
+                                        </div>
                                                 </div>
                                             </div>
                                             <div class="mt-4 mb-0">

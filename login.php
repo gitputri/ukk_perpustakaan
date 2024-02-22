@@ -25,15 +25,22 @@
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Login!</h3></div>
                                     <div class="card-body">
                                     <?php 
-                                        if(isset ($_SESSION['login.php'])){
+                                        if(isset ($_SESSION['login'])){
                                         $username= $_POST(["username"]);
                                         $password= MD5($_POST["password"]);
 
                                         $data = mysqli_query($koneksi, "SELECT*FROM user where 'username' = $username and 'password' = $password");
                                         $cek = mysqli_num_rows ($data);
+
+                                        if($cek > 0){
+                                            $_SESSION['user'] = mysqli_fettch_array($data);
+                                            echo '<script>alert("Login Berhasil")alert location.href=index.php</script>';
+                                        }else {
+                                            echo '<script>alert("Login Gagal, Coba Lagi")alert location.href=index.php</script>';
+
                                         }
- 
-                                        ?>        
+                                        }
+                                    ?>        
                                     
                                     <form method="post">
                                         <form>
